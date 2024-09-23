@@ -14,7 +14,6 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return await this.usersRepository.find();
   }
-
   async findOneById(id: number): Promise<User | null> {
     return await this.usersRepository.findOneBy({ id });
   }
@@ -42,6 +41,4 @@ export class UserService {
     return await this.usersRepository.save(existingUser);
   }
  
-
-
 }
