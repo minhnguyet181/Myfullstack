@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
 import * as cors from 'cors';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true, // Automatically sync entities to database, don't use in production
     }),
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule implements NestModule {

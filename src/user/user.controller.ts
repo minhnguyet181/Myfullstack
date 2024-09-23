@@ -11,8 +11,8 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<User> {
-    return await this.userService.findOne(id);
+  async findOneById(@Param('id') id: number): Promise<User> {
+    return await this.userService.findOneById(id);
   }
 
   @Post()

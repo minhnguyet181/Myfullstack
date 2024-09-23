@@ -15,7 +15,7 @@ export class UserService {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<User | null> {
+  async findOneById(id: number): Promise<User | null> {
     return await this.usersRepository.findOneBy({ id });
   }
 
@@ -27,7 +27,9 @@ export class UserService {
     const newUser = this.usersRepository.create(userData);
     return await this.usersRepository.save(newUser);
   }
-
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { email } });
+  }
   async updateUser(id: number, userData: UpdateUserDto): Promise<User> {
     const existingUser = await this.usersRepository.findOneBy({ id });
 
