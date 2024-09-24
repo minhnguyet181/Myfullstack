@@ -1,8 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get,Res,UseGuards,Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { IsNotEmpty, IsEmail } from 'class-validator';
-
-// DTO cho đăng nhập
+import { Response } from 'express';
+import { join } from 'path';
+import { AuthGuard } from './jwt-auth.guard';
 class SignInDto {
   @IsEmail()
   @IsNotEmpty()
@@ -16,9 +17,17 @@ class SignInDto {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // API đăng nhập
+  @Get('login')
+  getLoginPage(@Res() res: Response) {
+    return res.sendFile(join(__dirname,'..','..', 'public', 'login.html'));
+  }
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }

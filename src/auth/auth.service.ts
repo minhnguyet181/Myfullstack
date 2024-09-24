@@ -20,19 +20,17 @@ export class AuthService {
   }
 
 
-  async signIn(email: string, pass: string): Promise<any> {
-  
+  async signIn(
+    email: string,
+    pass: string,
+  ): Promise<{ access_token: string }> {
     const user = await this.usersService.findOneByEmail(email);
-    
-    if (!user || !(await bcrypt.compare(pass, user.password))) {
-      throw new UnauthorizedException('Email or password is incorrect');
+    if (user?.password !== pass) {
+      throw new UnauthorizedException();
     }
-    
-
-    const payload = { email: user.email, sub: user.id };
-    
+    const payload = { sub: user.id, email: user.email };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: await this.jwtService.signAsync(payload),
     };
   }
 

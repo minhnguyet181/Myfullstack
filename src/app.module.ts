@@ -5,6 +5,8 @@ import { User } from './user/user.entity';
 import * as cors from 'cors';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,7 +22,11 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true, // Automatically sync entities to database, don't use in production
     }),
     UserModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     AuthModule,
+    
   ],
 })
 export class AppModule implements NestModule {
